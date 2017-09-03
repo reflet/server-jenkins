@@ -1,11 +1,11 @@
 
-# Apache＋PHP7 Server - Debian
+# Selenium + python3 Server - ubuntsu
 
 docker-composeコマンドを使っての操作方法を記載します。
 
 ## 起動方法について（ RUN ）
 
-下記のコマンドにてコンテナを起動します。 (port 80 is available)
+下記のコマンドにてコンテナを起動します。 (port 4444 / 5900 is available)
 
 ```
 $ git clone https://github.com/reflet/server-selenium-python3.git .
