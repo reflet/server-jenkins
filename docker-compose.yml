@@ -32,4 +32,10 @@ python:
   volumes:
     - ./tests/:/root/tests/
 
+jenkins:
+  image: jenkins
+  container_name: 'jenkins'
+  ports:
+   - 8080:8080
+   - 50000:50000
 
