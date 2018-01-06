@@ -1,8 +1,21 @@
 # Add any directories, files, or patterns you don't want to be tracked by version control
 .git
-.idea
 .vagrant
-.DS_Store
 vendor
 !.gitkeep
 
+# temp files from editors
+*~
+*.bak
+.DS_Store
+.buildpath
+.project
+.settings
+*.tmproj
+build
+.idea
+nbproject/
+
+# hidden files created by Windows
+Thumbs.db
+desktop.ini

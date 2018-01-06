@@ -1,41 +1,52 @@
-selenium-hub:
-  image: selenium/hub
-  container_name: 'selenium-hub'
-  ports:
-    - 4444:4444
+version: '2'
+services:
 
-chrome:
-  image: selenium/node-chrome-debug
-  container_name: 'chrome'
-  links:
-    - selenium-hub:hub
-  ports:
-    - 5900:5900
-  volumes:
-    - /dev/shm:/dev/shm
+  selenium-hub:
+    image: selenium/hub
+    container_name: 'selenium-hub'
+    ports:
+      - '4444:4444'
 
-#firefox:
-#  image: selenium/node-firefox-debug
-#  container_name: 'firefox'
-#  ports:
-#   - 5910:5900
-#  links:
-#    - selenium-hub:hub
+  chrome:
+    image: selenium/node-chrome-debug
+    container_name: 'chrome'
+    environment:
+      - HUB_PORT_4444_TCP_ADDR=selenium-hub
+    ports:
+      - '5900:5900'
+    volumes:
+      - /dev/shm:/dev/shm
 
-python:
-  image: python:3
-  container_name: 'python'
-  links:
-    - selenium-hub:hub
-  command: 'tail -f /dev/null'  
-  working_dir: "/root/"
-  volumes:
-    - ./tests/:/root/tests/
+  #firefox:
+  #  image: selenium/node-firefox-debug
+  #  container_name: 'firefox'
+  #  ports:
+  #    - '5910:5900'
+  #  links:
+  #    - selenium-hub:hub
 
-jenkins:
-  image: jenkins
-  container_name: 'jenkins'
-  ports:
-   - 8080:8080
-   - 50000:50000
+  python:
+    image: python:3
+    container_name: 'python'
+    working_dir: '/root/'
+    command: 'tail -f /dev/null'
+    links:
+      - selenium-hub:hub
+    volumes:
+      - ./opt/:/root/opt/
+
+  jenkins:
+    build: docker/jenkins/.
+    container_name: 'jenkins'
+    working_dir: '/root/opt'
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    volumes:
+      - jenkins-data:/var/jenkins_home
+      - ./deploy:/root/deploy
+
+volumes:
+  jenkins-data:
+    driver: local
 
