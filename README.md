@@ -1,5 +1,5 @@
 
-# Selenium + python3 Server - ubuntsu
+# Selenium + python3 Server
 
 docker-composeコマンドを使っての操作方法を記載します。
 
