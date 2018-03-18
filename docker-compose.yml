@@ -1,51 +1,60 @@
 version: '2'
 services:
+    selenium-hub:
+        restart: always
+        image: selenium/hub
+        container_name: 'selenium-hub'
+        ports:
+            - '4444:4444'
 
-  selenium-hub:
-    image: selenium/hub
-    container_name: 'selenium-hub'
-    ports:
-      - '4444:4444'
+    chrome:
+        restart: always
+        image: selenium/node-chrome-debug
+        container_name: 'chrome'
+        environment:
+            - HUB_PORT_4444_TCP_ADDR=selenium-hub
+            - HUB_PORT_4444_TCP_PORT=4444
+        ports:
+            - '5900:5900'
+        volumes:
+            - /dev/shm:/dev/shm
+        depends_on:
+            - selenium-hub
 
-  chrome:
-    image: selenium/node-chrome-debug
-    container_name: 'chrome'
-    environment:
-      - HUB_PORT_4444_TCP_ADDR=selenium-hub
-    ports:
-      - '5900:5900'
-    volumes:
-      - /dev/shm:/dev/shm
+    #firefox:
+    #    restart: always
+    #    image: selenium/node-firefox-debug
+    #    container_name: 'firefox'
+    #    ports:
+    #        - '5910:5900'
+    #    environment:
+    #        - HUB_PORT_4444_TCP_ADDR=selenium-hub
+    #        - HUB_PORT_4444_TCP_PORT=4444
+    #    links:
+    #        - selenium-hub:hub
+    #    depends_on:
+    #        - selenium-hub
 
-  #firefox:
-  #  image: selenium/node-firefox-debug
-  #  container_name: 'firefox'
-  #  ports:
-  #    - '5910:5900'
-  #  links:
-  #    - selenium-hub:hub
+    python:
+        restart: always
+        image: python:3
+        container_name: 'python'
+        working_dir: '/root/'
+        command: 'tail -f /dev/null'
+        volumes:
+            - ./opt/:/root/opt/
 
-  python:
-    image: python:3
-    container_name: 'python'
-    working_dir: '/root/'
-    command: 'tail -f /dev/null'
-    links:
-      - selenium-hub:hub
-    volumes:
-      - ./opt/:/root/opt/
-
-  jenkins:
-    build: docker/jenkins/.
-    container_name: 'jenkins'
-    working_dir: '/root/opt'
-    ports:
-      - '8080:8080'
-      - '50000:50000'
-    volumes:
-      - jenkins-data:/var/jenkins_home
+    jenkins:
+        restart: always
+        image: reflet/docker-jenkins
+        container_name: 'jenkins'
+        working_dir: '/root/opt'
+        ports:
+            - '8080:8080'
+            - '50000:50000'
+        volumes:
+            - jenkins-data:/var/jenkins_home
 
 volumes:
-  jenkins-data:
-    driver: local
-
+    jenkins-data:
+        driver: local

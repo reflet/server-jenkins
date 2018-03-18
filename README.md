@@ -12,12 +12,6 @@ $ git clone https://github.com/reflet/server-selenium-python3.git .
 $ docker-compose up -d
 ```
 
-コンテナの起動状況は下記コマンドにて確認ください。
-
-```
-$ docker-compose ps
-```
-
 ## pythonコンテナにseleniumをインストール
 
 下記のコマンドにてコンテナ内に入ってインストールの作業を行う。
@@ -34,6 +28,7 @@ Python 3.6.2
 
 # apt-get -y update && apt-get install -y vim
 
+# pip install --upgrade pip
 # pip install selenium
 Collecting selenium
   Downloading selenium-3.5.0-py2.py3-none-any.whl (921kB)
