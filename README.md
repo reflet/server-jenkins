@@ -58,3 +58,16 @@ Type "help", "copyright", "credits" or "license" for more information.
 ※ VNCでサーバへ接続していれば、画面にてchromeが起動し、qiitaの画面へ移動することが確認できます。
 
 
+## Jenkinsからのテストコードの実行
+
+Jenkinsコンテナへ接続
+```
+$ docker exec -it jenkins bash
+```
+
+Jenkinsコンテナからpythonコンテナを操作してテストを実行する
+```
+*******:~/opt# docker exec python bash -c "python /root/opt/python_org_search.py"
+```
+
+以上
