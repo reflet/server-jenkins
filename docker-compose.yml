@@ -12,8 +12,7 @@ services:
         image: selenium/node-chrome-debug
         container_name: 'chrome'
         environment:
-            - HUB_PORT_4444_TCP_ADDR=selenium-hub
-            - HUB_PORT_4444_TCP_PORT=4444
+            HUB_HOST: selenium-hub
         ports:
             - '5900:5900'
         volumes:
@@ -28,14 +27,11 @@ services:
     #    ports:
     #        - '5910:5900'
     #    environment:
-    #        - HUB_PORT_4444_TCP_ADDR=selenium-hub
-    #        - HUB_PORT_4444_TCP_PORT=4444
-    #    links:
-    #        - selenium-hub:hub
+    #        HUB_HOST: selenium-hub
     #    depends_on:
     #        - selenium-hub
 
-    python3-selenium:
+    selenium:
         restart: always
         image: reflet/docker-python3-selenium
         container_name: 'selenium'
