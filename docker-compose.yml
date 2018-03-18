@@ -35,14 +35,14 @@ services:
     #    depends_on:
     #        - selenium-hub
 
-    python:
+    python3-selenium:
         restart: always
-        image: python:3
-        container_name: 'python'
+        image: reflet/docker-python3-selenium
+        container_name: 'selenium'
         working_dir: '/root/'
         command: 'tail -f /dev/null'
         volumes:
-            - ./opt/:/root/opt/
+            - ./selenium/:/root/opt/
 
     jenkins:
         restart: always
