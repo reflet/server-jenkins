@@ -1,5 +1,5 @@
 
-# Selenium + python3 Server
+# Selenium(python3) + Jenkins 環境
 
 docker-composeコマンドを使っての操作方法を記載します。
 
