@@ -1,47 +1,33 @@
-import unittest
-import os
-from browser import Browser
+import unittest, os
 
-"""E2Eテスト
-E2Eテストクラスを定義します。
+from libs.browser import Browser
+from libs.event_listener import MyListener
+from selenium.webdriver.support.event_firing_webdriver import EventFiringWebDriver
+
+"""
+ E2Eテスト Class
+ ※ E2Eテストクラスを定義します
 """
 class E2ETest(unittest.TestCase):
     domain = {
-        'prod' : 'https://www.qlife.jp',
-        'qa'   : 'https://kht.qlife.jp',
-        'dev'  : 'https://www.lan.qlife.co.jp',
-        'local': 'https://local-www.lan.qlife.co.jp'
+        'prod' : 'https://www.example.com',
+        'qa'   : 'https://www.qa-example.com',
+        'dev'  : 'https://www.dev-example.com',
+        'local': 'https://www.local-example.com'
     }
-    browser = None
     run_env = ''
+    browser = None
     wait_ajax_time = 2
 
     """初期化"""
     def setUp(self):
-        self.browser = Browser()
         self.run_env = os.getenv('RUN_ENV', None)
+        self.browser = Browser()
 
     """テスト終了"""
     def tearDown(self):
-        print("ブラウザー終了")
-        self.browser.quitBrowser()
-
-    """URLを生成する(QLife)
-    Args:
-        self: E2ETest instance
-        path: string
-    Returns:
-        string
-    """
-    def fullUrl(self, path):
-        if self.is_production():
-            url = self.domain['prod']
-        else:
-            print("環境変数に「RUN_ENV」が設定されません → KHTでテストになります")
-            url = self.domain['qa']
-        print(url);
-
-        return url + path
+        print("close browser")
+        self.browser.quit()
 
     """環境判定(production)
     本番環境かどうかを判定します。
